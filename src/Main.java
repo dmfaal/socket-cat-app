@@ -3,6 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -15,8 +16,8 @@ public class Main {
     @SuppressWarnings("InfiniteLoopStatement")
     public static void main(String[] args) {
         try {
-            Date date = new Date();
-            System.out.println("Вывел дату " + date.toString());
+            Date cur_date = new Date();
+            System.out.println("Вывел дату " + cur_date.toString());
             ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
             System.out.println("Сервер запущен на порту " + PORT_NUMBER);
             while (true) {
@@ -49,7 +50,15 @@ public class Main {
                                 contentType = "image/jpeg";
                             }
                         } else {
-                            content = "<p>Страница не найдена.</p>".getBytes(StandardCharsets.UTF_8);
+                            if (!way.equals("get_text")){
+                                content = "<p>Страница не найдена.</p>".getBytes(StandardCharsets.UTF_8);
+                            } else{
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                                Date date = new Date(System.currentTimeMillis());
+
+                                System.out.println(formatter.format(date));
+                                content = formatter.format(date).getBytes(StandardCharsets.UTF_8);
+                            }
                         }
                     } else {
                         content = "<p>Страница не найдена.</p>".getBytes(StandardCharsets.UTF_8);
