@@ -9,8 +9,6 @@
     <link href="https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans:300,400,400i,600,600i,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700" rel="stylesheet">
 
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-
 </head>
 
 <body style="cursor: auto;">
@@ -122,7 +120,7 @@
                                         Текущее время через сервер:
                                     </div>
                                     <div class="time__client">
-                                        00/00/00 00:00
+
                                     </div>
 
                                     <div class="time__server">
@@ -137,17 +135,4 @@
     </div>
 </div>
 </body>
-<script>
-    const clientTimeEl = document.querySelector(".time__client");
-    const serverTimeEl = document.querySelector(".time__server");
-
-    fetch('get_text').then(r => r.text().then((text) => {
-        serverTimeEl.innerText = text;
-    }));
-
-    window.setInterval(()=>{
-        const currentTime = dayjs(new Date()).format('DD/MM/YYYY HH:mm:ss');
-        clientTimeEl.innerText = currentTime;
-    }, 1000)
-</script>
 </html>

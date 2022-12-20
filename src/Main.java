@@ -3,9 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 public class Main {
     private static final int PORT_NUMBER = 8080;
@@ -16,8 +14,6 @@ public class Main {
     @SuppressWarnings("InfiniteLoopStatement")
     public static void main(String[] args) {
         try {
-            Date cur_date = new Date();
-            System.out.println("Вывел дату " + cur_date.toString());
             ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
             System.out.println("Сервер запущен на порту " + PORT_NUMBER);
             while (true) {
@@ -49,16 +45,14 @@ public class Main {
                             if (way.endsWith(".jpg")) {
                                 contentType = "image/jpeg";
                             }
-                        } else {
-                            if (!way.equals("get_text")){
-                                content = "<p>Страница не найдена.</p>".getBytes(StandardCharsets.UTF_8);
-                            } else{
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-                                Date date = new Date(System.currentTimeMillis());
-
-                                System.out.println(formatter.format(date));
-                                content = formatter.format(date).getBytes(StandardCharsets.UTF_8);
+                            if (way.endsWith(".html")) {
+                                Date date = new Date();
+                                String s = new String(content);
+                                s = s.replace("{time}", date.toString());
+                                content = s.getBytes();
                             }
+                        } else {
+                            content = "<p>Страница не найдена.</p>".getBytes(StandardCharsets.UTF_8);
                         }
                     } else {
                         content = "<p>Страница не найдена.</p>".getBytes(StandardCharsets.UTF_8);
